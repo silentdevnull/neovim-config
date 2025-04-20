@@ -8,6 +8,8 @@ vim.opt.expandtab = true
 vim.opt.smartindent = true
 vim.opt.wrap = false
 vim.opt.timeoutlen = 500
+
+vim.o.syntax = "on"
 -- Remapping
 
 vim.g.mapleader = ' '
