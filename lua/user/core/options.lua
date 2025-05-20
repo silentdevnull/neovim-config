@@ -9,4 +9,9 @@ opt.autoindent = true
 opt.smartindent = true
 -- opt.cindent = true -- For C-like languages, but formatters usually handle this better
 
+opt.termguicolors = true  -- Enable true color support
+opt.nu = true             -- Show line numbers
+opt.relativenumber = true -- Show relative line numbers
+opt.signcolumn = "yes"    -- Always show the signcolumn
+
 vim.notify("Core options set", vim.log.levels.INFO)
