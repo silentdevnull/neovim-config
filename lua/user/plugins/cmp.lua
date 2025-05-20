@@ -1,13 +1,13 @@
 return {
   "hrsh7th/nvim-cmp",
-  event = "InsertEnter",          -- Load when entering insert mode
+  event = "InsertEnter",            -- Load when entering insert mode
   dependencies = {
-    "hrsh7th/cmp-nvim-lsp",       -- LSP completions
-    "hrsh7th/cmp-buffer",         -- Buffer completions
-    "hrsh7th/cmp-path",           -- Path completions
-    "hrsh7th/cmp-cmdline",        -- Command-line completions
-    "L3MON4D3/LuaSnip",           -- Snippet engine
-    "saadparwaiz1/cmp_luasnip",   -- Snippet completion source for nvim-cmp
+    "hrsh7th/cmp-nvim-lsp",         -- LSP completions
+    "hrsh7th/cmp-buffer",           -- Buffer completions
+    "hrsh7th/cmp-path",             -- Path completions
+    "hrsh7th/cmp-cmdline",          -- Command-line completions
+    "L3MON4D3/LuaSnip",             -- Snippet engine
+    "saadparwaiz1/cmp_luasnip",     -- Snippet completion source for nvim-cmp
     "rafamadriz/friendly-snippets", -- A collection of snippets
   },
   config = function()
@@ -40,8 +40,8 @@ return {
       mapping = cmp.mapping.preset.insert({
         ["<C-b>"] = cmp.mapping.scroll_docs(-4),
         ["<C-f>"] = cmp.mapping.scroll_docs(4),
-        ["<C-Space>"] = cmp.mapping.complete(),        -- Main completion trigger
-        ["<C-e>"] = cmp.mapping.abort(),               -- Close completion menu
+        ["<C-Space>"] = cmp.mapping.complete(),            -- Main completion trigger
+        ["<C-e>"] = cmp.mapping.abort(),                   -- Close completion menu
         ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Confirm selection
         -- Tab completion
         ["<Tab>"] = cmp.mapping(function(fallback)
@@ -50,9 +50,9 @@ return {
           elseif luasnip.expand_or_jumpable() then
             luasnip.expand_or_jump()
           elseif has_words_before() then
-            cmp.complete() -- Trigger completion if there are words before cursor
+            cmp.complete()  -- Trigger completion if there are words before cursor
           else
-            fallback()  -- Fallback to default Tab behavior (e.g., indent)
+            fallback()      -- Fallback to default Tab behavior (e.g., indent)
           end
         end, { "i", "s" }), -- "i" for insert mode, "s" for select mode (snippets)
         ["<S-Tab>"] = cmp.mapping(function(fallback)
