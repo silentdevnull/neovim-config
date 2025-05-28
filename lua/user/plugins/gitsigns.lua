@@ -1,5 +1,3 @@
--- ~/.config/nvim/lua/user/plugins/gitsigns.lua
-
 return {
   "lewis6991/gitsigns.nvim",
   event = { "BufReadPre", "BufNewFile" }, -- Load when opening a file in a git repo
@@ -44,7 +42,6 @@ return {
         row = 0,
         col = 1,
       },
-      -- Keymaps are often set in the on_attach function or globally
       on_attach = function(bufnr)
         local gs = package.loaded.gitsigns
 
@@ -54,11 +51,9 @@ return {
           vim.keymap.set(mode, l, r, opts)
         end
 
-        -- Navigation
         map("n", "]h", function() gs.next_hunk() end, { desc = "Next Hunk (Gitsigns)" })
         map("n", "[h", function() gs.prev_hunk() end, { desc = "Prev Hunk (Gitsigns)" })
 
-        -- Actions
         map({ "n", "v" }, "<leader>hs", ":Gitsigns stage_hunk<CR>", { desc = "Stage Hunk (Gitsigns)" })
         map({ "n", "v" }, "<leader>hr", ":Gitsigns reset_hunk<CR>", { desc = "Reset Hunk (Gitsigns)" })
         map("n", "<leader>hS", gs.stage_buffer, { desc = "Stage Buffer (Gitsigns)" })
@@ -71,7 +66,6 @@ return {
         map("n", "<leader>hD", function() gs.diffthis("~") end, { desc = "Diff This ~ (Gitsigns)" })
         map("n", "<leader>htd", gs.toggle_deleted, { desc = "Toggle Deleted (Gitsigns)" })
 
-        -- Text object
         map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", { desc = "Select Hunk (Gitsigns)" })
       end,
     })
