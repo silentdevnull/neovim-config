@@ -7,6 +7,7 @@ return {
       "gomodifytags",
       "impl",
       "delve",
+      "js-debug-adapter",
     } 
   },
 }
