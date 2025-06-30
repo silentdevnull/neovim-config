@@ -8,6 +8,8 @@ return {
       "impl",
       "delve",
       "js-debug-adapter",
+      "hadolint",
+      "prettier",
     } 
   },
 }

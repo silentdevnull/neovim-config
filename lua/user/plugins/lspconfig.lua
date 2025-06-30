@@ -1,13 +1,9 @@
--- lua/user/lspconfig.lua (example file path for your lazy.nvim config)
-
 return {
   "neovim/nvim-lspconfig",
-  -- This 'opts' table will be passed directly to `require('lspconfig').setup({...})`
   opts = {
-    -- Servers defined here will be set up by nvim-lspconfig.
-    -- Each server can have its own settings and 'on_attach' function.
     servers = {
-      -- Configuration for the Go Language Server (gopls)
+      dockerls = {},
+      docker_compose_language_service = {},
       gopls = {
         settings = {
           gopls = {
@@ -44,11 +40,7 @@ return {
             semanticTokens = true,
           },
         },
-        -- This 'on_attach' function is specific to the 'gopls' server.
-        -- It will be called when gopls attaches to a buffer.
         on_attach = function(client, bufnr)
-          -- workaround for gopls not supporting semanticTokensProvider
-          -- https://github.com/golang/go/issues/54531#issuecomment-1464982242
           if not client.server_capabilities.semanticTokensProvider then
             local semantic = client.config.capabilities.textDocument.semanticTokens
             client.server_capabilities.semanticTokensProvider = {
@@ -61,77 +53,144 @@ return {
             }
           end
 
-          -- You can also add common keymaps or autocmds here that are
-          -- specific to LSP, or even to 'gopls' itself.
-          -- Example of basic LSP keymaps:
           local function buf_set_keymap(...)
             vim.api.nvim_buf_set_keymap(bufnr, ...)
           end
 
           local opts = { noremap = true, silent = true }
 
-          buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-          buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-          buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-          buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-          buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-          buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-          buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-          buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-          buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-          buf_set_keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.format({ async = true })<CR>', opts)
+          buf_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
+          buf_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+          buf_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
+          buf_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+          buf_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+          buf_set_keymap("n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
+          buf_set_keymap("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+          buf_set_keymap("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
+          buf_set_keymap("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
+          buf_set_keymap("n", "<leader>f", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>", opts)
 
-          -- Optional: Set up omnifunc for older completion methods
-          vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+          vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
         end,
       },
 
-      -- Example for another server (you would add more here as needed)
-      -- lua_ls = {
-      --   settings = {
-      --     Lua = {
-      --       workspace = {
-      --         checkThirdParty = false,
-      --       },
-      --       telemetry = {
-      --         enable = false,
-      --       },
-      --     },
-      --   },
-      --   on_attach = function(client, bufnr)
-      --     -- Common LSP setup here for lua_ls
-      --   end,
-      -- },
-    },
-    -- This 'on_attach' function (at the global 'opts' level) applies to ALL servers
-    -- unless overridden by a server-specific 'on_attach'.
-    -- If you are using LazyVim's global on_attach, you might not need this.
-    -- on_attach = function(client, bufnr)
-    --   print("LSP attached: " .. client.name)
-    --   -- Add common LSP keymaps here that apply to all servers
-    -- end,
-  },
+      ts_ls = {
+        init_options = {
+          hostInfo = "neovim",
+          preferences = {
+            disableSuggestions = false,
+            quoteStyle = "single", -- or "double"
+            jsxAttributeCompletionStyle = "auto",
+            completeFunctionCalls = true,
+            includeCompletionsForModuleExports = true,
+            includeCompletionsWithInsertText = true,
+            includeInlayParameterNameHints = "literals", -- "none" | "literals" | "all"
+            includeInlayVariableTypeHints = false,
+            includeInlayPropertyDeclarationTypeHints = false,
+            includeInlayFunctionParameterTypeHints = false,
+            includeInlayFunctionLikeReturnTypeHints = false,
+            includeInlayEnumMemberValueHints = false,
+            allowRenameOfImportPath = true,
+            allowTextChangesInNewFiles = true,
+            allowEditorTriggers = true,
+            provideRefactorNotApplicableHint = true,
+            preferTypeOnlyAutoImports = true,
+            interactiveInlayHints = true,
+          },
+        },
+        settings = {
+          typescript = {
+            inlayHints = {
+              includeInlayParameterNameHints = "literals",
+              includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+              includeInlayFunctionParameterTypeHints = true,
+              includeInlayVariableTypeHints = true,
+              includeInlayPropertyDeclarationTypeHints = true,
+              includeInlayFunctionLikeReturnTypeHints = true,
+              includeInlayEnumMemberValueHints = true,
+            },
+          },
+          javascript = {
+            inlayHints = {
+              includeInlayParameterNameHints = "literals",
+              includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+              includeInlayFunctionParameterTypeHints = true,
+              includeInlayVariableTypeHints = true,
+              includeInlayPropertyDeclarationTypeHints = true,
+              includeInlayFunctionLikeReturnTypeHints = true,
+              includeInlayEnumMemberValueHints = true,
+            },
+          },
+        },
+        filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+        -- REMOVE root_dir from here:
+        -- root_dir = require("lspconfig.util").find_git_ancestor,
+        on_attach = function(client, bufnr)
+          local function buf_set_keymap(...)
+            vim.api.nvim_buf_set_keymap(bufnr, ...)
+          end
 
-  -- 'config' function runs after the plugin is loaded and `opts` are processed
-  -- (i.e., after `lspconfig.setup(opts)` has been called by lazy.nvim).
-  -- This is a good place for global LSP configurations that don't fit into 'opts'.
+          local opts = { noremap = true, silent = true }
+
+          buf_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
+          buf_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+          buf_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
+          buf_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+          buf_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+          buf_set_keymap("n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
+          buf_set_keymap("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+          buf_set_keymap("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
+          buf_set_keymap("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
+          buf_set_keymap("n", "<leader>f", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>", opts)
+
+          vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+
+          buf_set_keymap("n", "<leader>o", "<cmd>lua vim.lsp.buf.code_action({ context = { only = { 'source.organizeImports' } } })<CR>", { desc = "Organize Imports" })
+          buf_set_keymap("n", "<leader>di", "<cmd>lua vim.lsp.inlay_hint(bufnr, true)<CR>", { desc = "Toggle Inlay Hints" })
+        end,
+      },
+    },
+  },
+  -- Add a config function for nvim-lspconfig
   config = function(_, opts)
-    -- This block is largely for global LSP customization that isn't part of the
-    -- 'lspconfig.setup' call directly. For example, if you're not using
-    -- LazyVim and want to set up common on_attach logic globally.
-    --
-    -- If you are using LazyVim, it likely has its own global `on_attach`
-    -- mechanism that calls `LazyVim.lsp.on_attach`. You would typically
-    -- let LazyVim handle that global part.
-    --
-    -- Example for setting up global `on_attach` if you're NOT using LazyVim's system:
-    -- require('lspconfig.ui.windows').default_options.border = 'rounded'
-    -- vim.diagnostic.config({
-    --   -- Your diagnostic settings here
-    -- })
-    --
-    -- You passed opts to the config function in your question.
-    -- The second argument `opts` here refers to the actual `opts` table defined above.
-    -- This is generally not needed if your 'opts' are directly passed to lspconfig.setup.
+    -- Now that nvim-lspconfig is loaded, we can safely require its utilities
+    local lspconfig_util = require("lspconfig.util")
+
+    -- Set up root_dir for ts_ls (and any other servers that need it) here
+    -- You can loop through servers in opts or set them individually
+    if opts.servers and opts.servers.ts_ls then
+      opts.servers.ts_ls.root_dir = lspconfig_util.find_git_ancestor
+    end
+    -- You might want a default root_dir for all servers if not specified
+    -- opts.root_dir = lspconfig_util.find_git_ancestor -- This applies to all servers by default if not overridden
+
+    -- Then, call the setup function for lspconfig.
+    -- Lazy.nvim usually does this automatically if you provide 'opts' at the top level
+    -- but if you have global settings or other setup that needs the 'util' module,
+    -- this is the place.
+    -- require("lspconfig").setup(opts) -- Lazy.nvim does this for you automatically
+                                     -- if 'opts' is provided in the top-level spec.
+                                     -- Only uncomment if you override the default Lazy.nvim behavior
+                                     -- by setting `opts = false` in the plugin spec and call setup manually.
+
+    -- General LSP configuration that uses lspconfig.util or other lspconfig features
+    -- after the plugin has been loaded.
+    require("lspconfig.ui.windows").default_options.border = 'rounded'
+    vim.diagnostic.config({
+      virtual_text = {
+        spacing = 4,
+        prefix = "●",
+      },
+      severity_sort = true,
+      update_in_insert = false,
+      float = {
+        focusable = false,
+        style = "minimal",
+        border = "rounded",
+        source = "always",
+        header = "",
+        prefix = "",
+      },
+    })
   end,
 }

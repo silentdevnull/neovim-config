@@ -15,9 +15,6 @@ require("lazy").setup({
   spec = {
     -- Import all files from the plugins directory
     { import = "user.plugins" },
-    -- You can also import individual plugin specifications like this:
-    -- { import = "user.plugins.telescope" },
-    -- { import = "user.plugins.treesitter" },
   },
   -- Configure any other lazy.nvim options here
   checker = {
@@ -29,3 +26,5 @@ require("lazy").setup({
     notify = true, -- Notify when changes are detected that require a restart
   },
 })
+
+

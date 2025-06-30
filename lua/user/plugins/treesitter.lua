@@ -26,6 +26,7 @@ return {
         "markdown_inline",
         "bash",
         "go",
+        "dockerfile",
       },
 
       sync_install = false,
