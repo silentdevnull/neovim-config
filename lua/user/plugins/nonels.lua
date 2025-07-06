@@ -4,7 +4,15 @@ return {
   dependencies = {
     {
       "mason-org/mason.nvim",
-      opts = { ensure_installed = { "gomodifytags", "impl" } },
+      opts = { 
+        ensure_installed = { 
+          "gofmt",
+          "goimports",
+          "gomodifytags", 
+          "impl",
+
+        } 
+      },
     },
   },
   opts = function(_, opts)

@@ -10,6 +10,7 @@ return {
       "js-debug-adapter",
       "hadolint",
       "prettier",
+      "goimports",
     } 
   },
 }
