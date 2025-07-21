@@ -10,7 +10,6 @@ return {
           "goimports",
           "gomodifytags", 
           "impl",
-
         } 
       },
     },

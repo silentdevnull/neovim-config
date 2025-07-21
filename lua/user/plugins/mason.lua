@@ -1,16 +1,13 @@
 return {
-  "mason-org/mason.nvim",
-  opts = { 
-    ensure_installed = { 
-      "goimports", 
-      "gofumpt",
-      "gomodifytags",
-      "impl",
-      "delve",
-      "js-debug-adapter",
-      "hadolint",
-      "prettier",
-      "goimports",
-    } 
-  },
+    "mason-org/mason.nvim",
+    lazy = false,
+    opts = {
+        ui = {
+            icons = {
+                package_installed = "✓",
+                package_pending = "➜",
+                package_uninstalled = "✗"
+            }
+        }
+    },
 }
